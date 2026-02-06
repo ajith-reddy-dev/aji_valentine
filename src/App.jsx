@@ -1,11 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import lovesvg from "./assets/All You Need Is Love SVG Cut File.svg";
 import lovesvg2 from "./assets/Love In The Air SVG Cut File.svg";
+import congratsAudio from "./congratulations.mp3";
 
 export default function Page() {
   const [noCount, setNoCount] = useState(0);
   const [yesPressed, setYesPressed] = useState(false);
   const yesButtonSize = noCount * 20 + 16;
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    if (yesPressed && audioRef.current) {
+      audioRef.current.play().catch(error => {
+        console.log("Audio autoplay failed:", error);
+      });
+    }
+  }, [yesPressed]);
 
   const handleNoClick = () => {
     setNoCount(noCount + 1);
@@ -45,6 +55,10 @@ export default function Page() {
           <div className="text-4xl md:text-6xl font-bold my-4">
             Ok Yayyyyy!!!
           </div>
+          <audio ref={audioRef} controls loop className="mt-4">
+            <source src={congratsAudio} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
         </>
       ) : (
         <>
@@ -61,7 +75,7 @@ export default function Page() {
             src="https://gifdb.com/images/high/cute-love-bear-roses-ou7zho5oosxnpo6k.webp"
           />
           <h1 className="text-4xl md:text-6xl my-4 text-center">
-            Will you be my Valentine?
+            Will you be my Valentine Nadine?
           </h1>
           <div className="flex flex-wrap justify-center gap-2 items-center">
             <button
@@ -89,7 +103,7 @@ const Footer = () => {
   return (
     <a
       className="fixed bottom-2 right-2 backdrop-blur-md opacity-80 hover:opacity-95 border p-1 rounded border-rose-300"
-      href="https://github.com/Xeven777/valentine"
+      href="https://github.com/ajith-reddy-dev/aji_valentine#"
       target="__blank"
     >
       Made with{" "}
